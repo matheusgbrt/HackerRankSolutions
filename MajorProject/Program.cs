@@ -3,18 +3,108 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Numerics;
 
 public class Program
 {
     public static void Main()
     {
+
     }
+
+
+
+
 
 }
 
 
 class Solutions
 {
+
+    public static string appendAndDelete(string s, string t, int k)
+    {
+        int commonLength = 0;
+        for (int i = 0; i < Math.Min(s.Length, t.Length); i++)
+        {
+            if (s[i] == t[i])
+            {
+                commonLength++;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        int charToRemove = s.Length - commonLength;
+        int charToAdd = t.Length - commonLength;
+        int totalOperations = charToRemove + charToAdd;
+
+        if (totalOperations == k)
+        {
+            return "Yes";
+        }
+
+        if (totalOperations < k)
+        {
+            if ((k - totalOperations) % 2 == 0 || k >= s.Length + t.Length)
+            {
+                return "Yes";
+            }
+        }
+        return "No";
+    }
+
+    public static void extraLongFactorials(int n)
+    {
+        BigInteger fact = 1;
+        do
+        {
+            fact = fact * n;
+            n--;
+        }
+        while (n >= 1);
+        Console.WriteLine(fact);
+    }
+
+    public static int findDigits(int n)
+    {
+        int counter = 0;
+        char[] number = n.ToString().ToCharArray();
+        foreach (char i in number)
+        {
+            int num = Convert.ToInt16(i.ToString());
+            if (num > 0)
+            {
+                if (n % num == 0)
+                {
+                    counter++;
+                }
+
+            }
+        }
+        return counter;
+
+    }
+
+    static int jumpingOnClouds(int[] c, int k)
+    {
+        int e = 100;
+        int[] thundercloudindexes = c.Select((value, index) => new { value, index }).Where(x => x.value == 1).Select(x => x.index).ToArray();
+        int position = 0;
+        do
+        {
+            position += k;
+            position %= c.Length;
+            if (thundercloudindexes.Contains(position))
+            {
+                e -= 2;
+            }
+            e -= 1;
+        } while (position != 0);
+        return e;
+    }
 
     public static List<int> permutationEquation(List<int> p)
     {
